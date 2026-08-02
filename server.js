@@ -15,32 +15,55 @@ app.get('/', (req, res) => {
 let accessLogs = [];
 const ADMIN_PASSWORD = "nathan904"; // Ton mot de passe administrateur
 
-// Middleware pour enregistrer les visites (ou tu peux l'appeler via une route spécifique /api/track)
+// Middleware pour enregistrer les visites de base
 app.use((req, res, next) => {
-    // Si tu veux logger uniquement certaines routes ou toutes :
-    if (req.path.startsWith('/api/') && req.path !== '/api/admin/logs') {
+    if (req.path.startsWith('/api/') && req.path !== '/api/admin/logs' && req.path !== '/api/report-location') {
         const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-        accessLogs.unshift({
-            ip: clientIp,
-            time: new Date().toLocaleString('fr-FR', { timeZone: 'America/Montreal' })
-        });
-        // Garder uniquement les 50 derniers logs
-        if (accessLogs.length > 50) accessLogs.pop();
+        
+        // Éviter les doublons immédiats pour la même IP
+        const existing = accessLogs.find(l => l.ip === clientIp);
+        if (!existing) {
+            accessLogs.unshift({
+                ip: clientIp,
+                username: "Visiteur (Anonyme)",
+                latitude: "Non partagée",
+                longitude: "Non partagée",
+                time: new Date().toLocaleString('fr-FR', { timeZone: 'America/Montreal' })
+            });
+            if (accessLogs.length > 50) accessLogs.pop();
+        }
     }
     next();
 });
 
-// Route de tracking optionnelle si appelée explicitement par le front
-app.post('/api/track', (req, res) => {
+// Route pour enregistrer la position précise et le pseudo du visiteur
+app.post('/api/report-location', (req, res) => {
+    const { username, latitude, longitude } = req.body;
     const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    accessLogs.unshift({
-        ip: clientIp,
-        time: new Date().toLocaleString('fr-FR', { timeZone: 'America/Montreal' })
-    });
+
+    // Chercher si cette IP existe déjà dans les logs pour mettre à jour ses infos
+    let existingLog = accessLogs.find(l => l.ip === clientIp);
+    
+    if (existingLog) {
+        existingLog.username = username || existingLog.username;
+        existingLog.latitude = latitude || existingLog.latitude;
+        existingLog.longitude = longitude || existingLog.longitude;
+        existingLog.time = new Date().toLocaleString('fr-FR', { timeZone: 'America/Montreal' });
+    } else {
+        accessLogs.unshift({
+            ip: clientIp,
+            username: username || "Visiteur",
+            latitude: latitude || "Non partagée",
+            longitude: longitude || "Non partagée",
+            time: new Date().toLocaleString('fr-FR', { timeZone: 'America/Montreal' })
+        });
+        if (accessLogs.length > 50) accessLogs.pop();
+    }
+
     res.json({ success: true });
 });
 
-// Route pour récupérer les logs administrateur (Corrigée pour correspondre à /api/admin/logs)
+// Route pour récupérer les logs administrateur
 app.get('/api/admin/logs', (req, res) => {
     const password = req.query.pass;
 
@@ -57,7 +80,11 @@ app.get('/api/admin/logs', (req, res) => {
     }
 });
 
-// Lancement du serveur (Render utilise process.env.PORT)
+// Routes de statut fictives pour éviter les erreurs si ton bot n'est pas branché
+app.get('/api/status', (req, res) => res.json({ online: true, uptime: "24h" }));
+app.get('/api/guild', (req, res) => res.json({ memberCount: 5 }));
+
+// Lancement du serveur
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Serveur Pub Québec démarré sur le port ${PORT}`);
