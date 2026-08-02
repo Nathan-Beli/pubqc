@@ -401,7 +401,9 @@
     </footer>
 
     <script>
-        const API_BASE_URL = 'https://pub-quebec.onrender.com'; 
+        const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+            ? 'http://localhost:3000'
+            : window.location.origin;
 
         // 1. Enregistre automatiquement chaque visiteur auprès du serveur Render
         async function trackVisitor() {
