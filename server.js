@@ -44,7 +44,7 @@ app.get('/api/admin/logs', (req, res) => {
             logs: accessLogs
         });
     } else {
-        return.status(401).json({
+        return res.status(401).json({
             success: false,
             message: "Mot de passe incorrect"
         });
