@@ -5,16 +5,15 @@ const app = express();
 // TRÈS IMPORTANT sur Render : permet de récupérer la vraie IP à travers les proxys
 app.set('trust proxy', true);
 
-// Autoriser les requêtes venant de ton GitHub Pages
+// Configuration CORS pour autoriser ton site (Canner / GitHub Pages / etc.)
 app.use(cors());
 app.use(express.json());
 
 // Tableau temporaire pour stocker les connexions de tous les visiteurs
 let visitorLogs = [];
 
-// Route pour enregistrer automatiquement l'IP de n'importe quel visiteur
+// 1. Route pour enregistrer automatiquement l'IP de n'importe quel visiteur
 app.get('/api/track', (req, res) => {
-    // Récupère la vraie IP du visiteur
     const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     const visitTime = new Date().toLocaleString('fr-CA', { timeZone: 'America/Montreal' });
 
@@ -32,7 +31,7 @@ app.get('/api/track', (req, res) => {
     res.json({ success: true, recorded: cleanIp });
 });
 
-// Route sécurisée pour récupérer la liste des IP depuis le panneau admin
+// 2. Route sécurisée pour récupérer la liste des IP depuis le panneau admin
 app.get('/api/admin/logs', (req, res) => {
     const password = req.query.pass;
     if (password === 'nathan904') {
@@ -42,23 +41,18 @@ app.get('/api/admin/logs', (req, res) => {
     }
 });
 
-// ==========================================
-// TES AUTRES ROUTES EXISTANTES (Status & Guild)
-// ==========================================
-
-// Route pour le statut du bot
+// 3. Route pour le statut du bot
 app.get('/api/status', (req, res) => {
-    // Ajuste selon comment tu gères ton bot (si tu as une variable globale d'uptime par exemple)
     res.json({ 
         online: true, 
-        uptime: "En ligne" // Remplace par ta variable d'uptime si tu en as une
+        uptime: "En ligne" 
     });
 });
 
-// Route pour les infos de la guilde/serveur Discord
+// 4. Route pour les infos du serveur Discord
 app.get('/api/guild', (req, res) => {
     res.json({ 
-        memberCount: 5 // Remplace ou connecte à ton client Discord.js (ex: client.guilds.cache.get('ID').memberCount)
+        memberCount: 5 
     });
 });
 
