@@ -1,9 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+// Servir le fichier index.html à la racine
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // Stockage temporaire des logs de connexions / visites (en mémoire)
 let accessLogs = [];
