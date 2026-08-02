@@ -1,3 +1,13 @@
-"scripts": {
-  "start": "node index.js"
+{
+  "name": "pub-quebec",
+  "version": "1.0.0",
+  "description": "Serveur Pub Quebec",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
 }
